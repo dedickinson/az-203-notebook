@@ -1,0 +1,39 @@
+{
+    "job": {
+        "id": "job-factorial",
+        "constraints": {
+            "maxWallClockTime": "PT5M",
+            "maxTaskRetryCount": 3
+        },
+        "poolInfo": {
+            "poolId": "az203"
+        },
+        "taskFactory": {
+            "type": "parametricSweep",
+            "parameterSets": [
+                {
+                    "start": 2,
+                    "end": 5,
+                    "step": 1
+                }
+            ],
+            "repeatTask": {
+                "commandLine": "/bin/bash -c '${{AZ_BATCH_APP_PACKAGE_task_factorial_1_0_0}}/task_factorial.py {0} >result.json'",
+                "outputFiles": [
+                    {
+                        "filePattern": "result.json",
+                        "destination": {
+                            "autoStorage": {
+                                "path": "output-{0}.json",
+                                "fileGroup": "outputData"
+                            }
+                        },
+                        "uploadOptions": {
+                            "uploadCondition": "TaskSuccess"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
