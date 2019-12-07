@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/e999a128-5ba0-4de2-80f6-8ac9869a1d72/resourceGroups/az-203-training/providers/Microsoft.Web/sites/az203TaskList",
+    "appService.deploySubpath": "mobile-apps/TodoApi"
+}

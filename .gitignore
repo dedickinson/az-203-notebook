@@ -1,1 +1,4 @@
 batch/task_factorial.zip
+**/node_modules
+obj/
+bin/
