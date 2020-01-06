@@ -2,7 +2,41 @@
 
 ## Policies
 
-### Caching
+### Returning a response
+
+This example performs an addition calculation on two query params (`num1` & `num2`)
+and returns the result without using the backend.
+
+    <policies>
+        <inbound>
+            <base />
+            <return-response>
+                <set-status code="200" reason="Success" />
+                <set-body>
+                @{
+                    var responseBody = new Dictionary<string, int>
+                    {
+                        {"num1", Int32.Parse(context.Request.Url.Query["num1"].First())},
+                        {"num2", Int32.Parse(context.Request.Url.Query["num2"].First())}
+                    };
+                    responseBody.Add("result", responseBody["num1"] + responseBody["num2"]);
+
+                    return JsonConvert.SerializeObject(responseBody);
+                }
+                </set-body>
+            </return-response>
+        </inbound>
+        <backend>
+            <base />
+        </backend>
+        <outbound>
+            <base />
+        </outbound>
+        <on-error>
+            <base />
+        </on-error>
+    </policies>
+
 
 ### Caching
 
