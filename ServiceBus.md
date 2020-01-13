@@ -12,6 +12,11 @@ Required packages:
 
 - `Microsoft.Azure.ServiceBus`
 
+Protocols:
+
+- AMQP
+- HTTP/REST
+
 ## Access Policies
 
 Shared access policies:
