@@ -13,3 +13,10 @@ Just some notes for various items around the
     * [Queues](Queues.md)
     * [Tables](Tables.md)
 * [Redis](Redis.md)
+* [Search](Search.md)
+* [Containerised Solutions](ContainerSolutions.md)
+
+## Exam details
+
+- Exam page: https://docs.microsoft.com/en-us/learn/certifications/exams/az-203
+- Exam skills: https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RE3VEHC
