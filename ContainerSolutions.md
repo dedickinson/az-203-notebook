@@ -31,6 +31,11 @@ docker pull $ACR_NAME.azurecr.io/$IMAGE_NAME:cj2
 Start:
 
 ```bash
+ACR_LOGIN_SERVER=$(az acr show --name $ACR_NAME \
+                               --resource-group $RESOURCE_GROUP \
+                               --query "loginServer" \
+                               --output tsv)
+
 az container create --resource-group $RESOURCE_GROUP \
                     --name $IMAGE_NAME \
                     --image $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_VERSION \
