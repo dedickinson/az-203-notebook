@@ -128,3 +128,30 @@ public class Functions
     }
 }
 ```
+
+## Container-based Webapps
+
+Refer to [azure-webapp-container](https://github.com/dedickinson/webapp-variations/blob/master/deploy/azure-webapp-container/README.md)
+
+```
+az appservice plan create --name $RESOURCE_GROUP \
+                          --resource-group $RESOURCE_GROUP \
+                          --sku B1 \
+                          --is-linux
+
+az webapp create --resource-group $RESOURCE_GROUP \
+                 --plan $RESOURCE_GROUP \
+                 --name $WEB_APP_NAME \
+                 --deployment-container-image-name $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_VERSION
+
+az webapp config container set --name $WEB_APP_NAME \
+                               --resource-group $RESOURCE_GROUP \
+                               --docker-custom-image-name $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_VERSION \
+                               --docker-registry-server-url $ACR_LOGIN_SERVER \
+                               --docker-registry-server-user $(az keyvault secret show --vault-name $AKV_NAME -n $ACR_NAME-pull-usr --query value -o tsv) \
+                               --docker-registry-server-password $(az keyvault secret show --vault-name $AKV_NAME -n $ACR_NAME-pull-pwd --query value -o tsv)
+
+az webapp config appsettings set --name $WEB_APP_NAME \
+                                 --resource-group $RESOURCE_GROUP \
+                                 --settings WEBSITES_PORT=3000
+```
