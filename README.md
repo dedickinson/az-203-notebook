@@ -7,17 +7,20 @@ Just some notes for various items around the
 * [API Management](APIM.md)
 * [Functions](Functions.md)
 * [Batch](Batch.md)
+* [CosmosDB](Cosmos.md)
 * [Azure SQL DB](SqlServer.md)
 * [Service Bus](ServiceBus.md)
 * [Event Hub](EventHub.md)
 * Storage Accounts:
     * [Queues](Queues.md)
     * [Tables](Tables.md)
+    * [Blobs](Blobs.md)
 * [Redis](Redis.md)
 * [Search](Search.md)
 * [Containerised Solutions](ContainerSolutions.md)
 * [Logic Apps](LogicApps.md)
 * [Azure Monitor](Monitor.md)
+* [Key Vault](KeyVault.md)
 
 ## Exam details
 
