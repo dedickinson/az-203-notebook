@@ -22,6 +22,7 @@ Just some notes for various items around the
 * [Logic Apps](LogicApps.md)
 * [Azure Monitor](Monitor.md)
 * [Key Vault](KeyVault.md)
+* [Virtual Machines](VM.md)
 
 ## Exam details
 
