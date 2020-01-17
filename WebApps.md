@@ -25,6 +25,61 @@ az appservice plan show -n az203-todo-api -g az-203-training
 az appservice plan update -n az203-todo-api -g az-203-training --sku B2
 ```
 
+## Web API
+
+Key packages:
+- `Swashbuckle.AspNetCore`: Generate OpenApi
+
+### Generate OpenAPI
+
+In `Startup.cs`:
+
+```C#
+public void ConfigureServices(IServiceCollection services)
+{
+    // ...
+    services.AddSwaggerGen(c =>
+    {
+        c.SwaggerDoc("v1", new OpenApiInfo
+        {
+            Version = "v1",
+            Title = "ToDo API",
+            Description = "A simple example ASP.NET Core Web API",
+            TermsOfService = new Uri("https://example.com/terms"),
+
+            Contact = new OpenApiContact
+            {
+                Name = "Fred Nurk",
+                Email = "test@example.com",
+                Url = new Uri("http://www.example.com"),
+            },
+            License = new OpenApiLicense
+            {
+                Name = "Use under LICX",
+                Url = new Uri("https://example.com/license"),
+            }
+        });
+        // Set the comments path for the Swagger JSON and UI.
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+        c.IncludeXmlComments(xmlPath);
+    });
+    // ...
+}
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    app.UseSwagger();
+
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Todo API V1");
+        c.RoutePrefix = string.Empty;
+    });
+
+    // ...
+}
+```
+
 ## Authentication
 
 Sample project: <WebAppIndividualAuth>
