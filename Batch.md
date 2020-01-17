@@ -1,7 +1,7 @@
 # Azure Batch
 
 * MSFT Docs: https://docs.microsoft.com/en-us/azure/batch/
-* Demo: <batch/README.md>
+* Demo: [batch/README.md](batch/README.md)
 
 ## Sample Code
 

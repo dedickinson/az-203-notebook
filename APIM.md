@@ -7,6 +7,7 @@
 This example performs an addition calculation on two query params (`num1` & `num2`)
 and returns the result without using the backend.
 
+```xml
     <policies>
         <inbound>
             <base />
@@ -36,12 +37,13 @@ and returns the result without using the backend.
             <base />
         </on-error>
     </policies>
-
+```
 
 ### Caching
 
 The following example will cache a response and return the cached value - note the `vary-by`:
 
+```xml
     <policies>
         <inbound>
             <cache-lookup vary-by-developer="false" vary-by-developer-groups="false" downstream-caching-type="none">
@@ -63,9 +65,11 @@ The following example will cache a response and return the cached value - note t
             <base />
         </on-error>
     </policies>
+```
 
 Lookup and set a cache value:
 
+```xml
     <policies>
         <inbound>
             <cache-lookup-value key="magic-number" variable-name="magicnumber" default-value="0" />
@@ -85,6 +89,7 @@ Lookup and set a cache value:
             <base />
         </on-error>
     </policies>
+```
 
 ### Quotas
 
