@@ -97,6 +97,19 @@ Key packages:
 - Google: /.auth/login/google
 - Twitter: /.auth/login/twitter
 
+Token headers: https://docs.microsoft.com/en-us/azure/app-service/app-service-authentication-how-to#retrieve-tokens-in-app-code
+
+Access token details at `/.auth/me` e.g. https://az203webappsandbox.azurewebsites.net/.auth/me
+
+This gets the currently logged-in user's Principal Name:
+
+    _httpContextAccessor.HttpContext.Request.Headers["X-MS-CLIENT-PRINCIPAL-NAME"];
+
+Useful articles/projects:
+
+- https://www.benday.com/2018/05/21/walkthrough-part-5-asp-net-core-claims-based-security-using-azure-app-authentication-the-auth-me-service-endpoint/
+- https://github.com/MaximRouiller/MaximeRouiller.Azure.AppService.EasyAuth
+
 ### Sample Code
 
 In `Startup.cs`:
