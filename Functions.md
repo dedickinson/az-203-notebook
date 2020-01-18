@@ -1,5 +1,9 @@
 # Azure Functions
 
+Notes:
+
+- AppInsights is configured with the `APPINSIGHTS_INSTRUMENTATIONKEY` setting
+
 ## C# Functions
 
 ### Queue trigger
@@ -27,6 +31,12 @@ namespace fn
 ```
 
 ### Timer Trigger
+
+[Cron format](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer?tabs=csharp#ncrontab-expressions):
+
+    {second} {minute} {hour} {day} {month} {day-of-week}
+
+Run every 5 minutes:
 
 ```C#
 public static class TimerTriggerFunc
@@ -60,6 +70,80 @@ public static class HttpTriggerCSharp
         return name != null
             ? (ActionResult)new OkObjectResult($"Hello, {name}")
             : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+    }
+}
+```
+
+### HTTP Trigger with Table output
+
+* Project: [Functions/ThoughtBubble](Functions/ThoughtBubble)
+
+_Note_: If a specific table connection string is not provided, the
+`AzureWebJobsStorage` connection is used.
+
+This HTTP function creates a new row in a Table:
+
+```C#
+public static class ThoughtBubbleSubmit
+{
+    [FunctionName("ThoughtBubbleSubmit")]
+    [return: Table("ThoughtTable")]
+    public static ThoughtBubble Submit(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] ThoughtSubmission req,
+        ILogger log)
+    {
+        log.LogInformation("C# HTTP trigger function processed a request.");
+
+        return new ThoughtBubble {
+            PartitionKey = req.User,
+            RowKey = Guid.NewGuid().ToString(),
+            Thought = req.Thought };
+    }
+}
+```
+
+This one takes the table as an input and queries it to provide a response:
+
+```C#
+public static class ThoughtBubbleList
+{
+    [FunctionName("ThoughtBubbleList")]
+    public static async Task<IActionResult> Submit(
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+        [Table("ThoughtTable")] CloudTable thoughtTable,
+        ILogger log)
+    {
+        log.LogInformation("C# HTTP trigger function processed a request.");
+
+        string user = req.Query["user"];
+
+        TableQuerySegment<ThoughtBubble> thoughts;
+        TableQuery<ThoughtBubble> queryUser;
+
+        if (String.IsNullOrEmpty(user))
+        {
+            queryUser = new TableQuery<ThoughtBubble>();
+
+        }
+        else
+        {
+            queryUser = new TableQuery<ThoughtBubble>()
+                .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, user));
+
+        }
+        thoughts = await thoughtTable.ExecuteQuerySegmentedAsync(queryUser, null);
+
+        var thoughtList = new List<ThoughtSubmission>();
+        foreach (var thought in thoughts)
+        {
+            thoughtList.Add(new ThoughtSubmission()
+            {
+                User = thought.PartitionKey,
+                Thought = thought.Thought
+            });
+        }
+
+        return (ActionResult)new OkObjectResult(thoughtList);
     }
 }
 ```

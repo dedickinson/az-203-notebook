@@ -18,6 +18,8 @@ Packages:
 Subsclass the `TableEntity`:
 
 ```C#
+using Microsoft.Azure.Cosmos.Table;
+
 public class PetEntity : TableEntity {
     public int age {get; set;}
 
