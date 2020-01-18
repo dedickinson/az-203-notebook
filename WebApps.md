@@ -213,4 +213,40 @@ az webapp config appsettings set --name $WEB_APP_NAME \
 
 ## Managed Identities
 
-Project:
+Project: [Az203WebAppSandbox](Az203WebAppSandbox)
+
+Required packages:
+
+- `Microsoft.Azure.Services.AppAuthentication`
+- `Microsoft.Azure.KeyVault`
+- `Microsoft.Extensions.Configuration.AzureKeyVault`
+
+Example configuration setup using `AzureServiceTokenProvider` to get a token
+for the Managed Identity (MI). The MI needs Secret Get/List permissions in the
+Key Vault to access the required secrets.
+
+```C#
+public static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .ConfigureAppConfiguration((ctx, builder) =>
+        {
+            var keyVaultEndpoint = GetKeyVaultEndpoint();
+            if (!string.IsNullOrEmpty(keyVaultEndpoint))
+            {
+                var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                var keyVaultClient = new KeyVaultClient(
+                    new KeyVaultClient.AuthenticationCallback(
+                        azureServiceTokenProvider.KeyVaultTokenCallback));
+                builder.AddAzureKeyVault(
+                    keyVaultEndpoint,
+                    keyVaultClient,
+                    new DefaultKeyVaultSecretManager());
+            }
+        })
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseStartup<Startup>();
+        });
+
+private static string GetKeyVaultEndpoint() => Environment.GetEnvironmentVariable("KEYVAULT_ENDPOINT");
+```
