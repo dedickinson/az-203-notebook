@@ -6,7 +6,6 @@ Just some notes for various items around the
 * [Web Apps](WebApps.md)
 * [Functions](Functions.md)
 * [API Management](APIM.md)
-* [Functions](Functions.md)
 * [Batch](Batch.md)
 * [CosmosDB](Cosmos.md)
 * [Azure SQL DB](SqlServer.md)

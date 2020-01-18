@@ -82,7 +82,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 ## Authentication
 
-Sample project: <WebAppIndividualAuth>
+Sample project: [WebAppIndividualAuth](WebAppIndividualAuth)
 
 Key packages:
 

@@ -77,3 +77,73 @@ az batch pool create \
     --node-agent-sku-id "batch.node.ubuntu 18.04" \
     --max-tasks-per-node 1
 ```
+
+### Launch in C#
+
+Snippet of (basic) [task creation](https://github.com/Azure-Samples/batch-dotnet-quickstart/blob/master/BatchDotnetQuickstart/Program.cs):
+
+```C#
+List<CloudTask> tasks = new List<CloudTask>();
+
+// loop {
+CloudTask task = new CloudTask(taskId, taskCommandLine);
+task.ResourceFiles = new List<ResourceFile> { inputFiles[i] };
+tasks.Add(task);
+// } loop
+
+batchClient.JobOperations.AddTask(JobId, tasks);
+IEnumerable<CloudTask> addedTasks = batchClient.JobOperations.ListTasks(JobId);
+
+batchClient.Utilities.CreateTaskStateMonitor().WaitAll(addedTasks, TaskState.Completed, timeout);
+
+Console.WriteLine("All tasks reached state Completed.");
+```
+
+
+[Parallel tasks](https://github.com/Azure-Samples/batch-dotnet-ffmpeg-tutorial/blob/master/BatchDotnetTutorialFfmpeg/Program.cs)
+
+```C#
+// Obtain a shared access signature that provides write access to the output container to which
+// the tasks will upload their output.
+string outputContainerSasUrl = GetContainerSasUrl(blobClient, outputContainerName, SharedAccessBlobPermissions.Write);
+
+// CREATE BATCH CLIENT / CREATE POOL / CREATE JOB / ADD TASKS
+
+// Create a Batch client and authenticate with shared key credentials.
+// The Batch client allows the app to interact with the Batch service.
+BatchSharedKeyCredentials sharedKeyCredentials = new BatchSharedKeyCredentials(BatchAccountUrl, BatchAccountName, BatchAccountKey);
+
+using (BatchClient batchClient = BatchClient.Open(sharedKeyCredentials))
+{
+    // Create the Batch pool, which contains the compute nodes that execute the tasks.
+    await CreatePoolIfNotExistAsync(batchClient, PoolId);
+
+    // Create the job that runs the tasks.
+    await CreateJobAsync(batchClient, JobId, PoolId);
+
+    // Create a collection of tasks and add them to the Batch job.
+    // Provide a shared access signature for the tasks so that they can upload their output
+    // to the Storage container.
+    await AddTasksAsync(batchClient, JobId, inputFiles, outputContainerSasUrl);
+
+    // Monitor task success or failure, specifying a maximum amount of time to wait for
+    // the tasks to complete.
+    await MonitorTasks(batchClient, JobId, TimeSpan.FromMinutes(30));
+```
+
+Snippet of (parallel) Task creation:
+
+```C#
+List<CloudTask> tasks = new List<CloudTask>();
+// loop {
+    CloudTask task = new CloudTask(taskId, taskCommandLine);
+    task.ResourceFiles = new List<ResourceFile> { inputFiles[i] };
+    task.OutputFiles = outputFileList;
+    tasks.Add(task);
+// } loop
+
+// Call BatchClient.JobOperations.AddTask() to add the tasks as a collection rather than making a
+// separate call for each. Bulk task submission helps to ensure efficient underlying API
+// calls to the Batch service.
+await batchClient.JobOperations.AddTaskAsync(jobId, tasks);
+```

@@ -2,6 +2,8 @@
 
 ## Policies
 
+Docs: https://docs.microsoft.com/en-us/azure/api-management/api-management-policy-expressions
+
 ### Returning a response
 
 This example performs an addition calculation on two query params (`num1` & `num2`)
@@ -108,3 +110,30 @@ Quota for a subscription - can be set at product or operation level:
 Quota for a key:
 
     <quota-by-key calls="2" bandwidth="100" renewal-period="3600" counter-key="@(context.Request.IpAddress)" />
+
+### Restrict access
+
+[IP Restriction](https://docs.microsoft.com/en-us/azure/api-management/api-management-access-restriction-policies#RestrictCallerIPs):
+
+```xml
+<ip-filter action="allow">
+    <address>13.66.201.169</address>
+    <address-range from="13.66.140.128" to="13.66.140.143" />
+</ip-filter>
+```
+
+[Validate JWT](https://docs.microsoft.com/en-us/azure/api-management/api-management-access-restriction-policies#ValidateJWT):
+
+```xml
+<validate-jwt header-name="Authorization" require-scheme="Bearer">
+    <issuer-signing-keys>
+        <key>{{jwt-signing-key}}</key>  <!-- signing key specified as a named value -->
+    </issuer-signing-keys>
+    <audiences>
+        <audience>@(context.Request.OriginalUrl.Host)</audience>  <!-- audience is set to API Management host name -->
+    </audiences>
+    <issuers>
+        <issuer>http://contoso.com/</issuer>
+    </issuers>
+</validate-jwt>
+```
