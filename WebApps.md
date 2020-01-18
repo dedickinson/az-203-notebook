@@ -105,6 +105,8 @@ This gets the currently logged-in user's Principal Name:
 
     _httpContextAccessor.HttpContext.Request.Headers["X-MS-CLIENT-PRINCIPAL-NAME"];
 
+Configure Google Auth: https://console.developers.google.com/apis/dashboard
+
 Useful articles/projects:
 
 - https://www.benday.com/2018/05/21/walkthrough-part-5-asp-net-core-claims-based-security-using-azure-app-authentication-the-auth-me-service-endpoint/

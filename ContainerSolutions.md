@@ -76,3 +76,29 @@ az aks get-credentials --resource-group $RESOURCE_GROUP --name $AKS_NAME
 ```
 
 _Now use `kubectl`_
+
+### Scaling
+
+Docs: https://docs.microsoft.com/en-us/azure/aks/concepts-scale
+
+Manually scale nodes:
+
+    az aks scale --resource-group myResourceGroup --name myAKSCluster --node-count 2
+
+Enable the cluster auto-scaler:
+
+    az aks update \
+        --resource-group myResourceGroup \
+        --name myAKSCluster \
+        --enable-cluster-autoscaler \
+        --min-count 1 \
+        --max-count 3
+
+Update:
+
+    az aks update \
+        --resource-group myResourceGroup \
+        --name myAKSCluster \
+        --update-cluster-autoscaler \
+        --min-count 1 \
+        --max-count 2
