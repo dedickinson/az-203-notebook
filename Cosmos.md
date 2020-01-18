@@ -73,8 +73,21 @@ CosmosContainer.UpsertItemAsync(r)
 
 ### Queries
 
+```C#
+QueryDefinition queryDefinition = new QueryDefinition(query);
+FeedIterator<dynamic> queryResultSetIterator = container.GetItemQueryIterator<dynamic>(query);
 
+while (queryResultSetIterator.HasMoreResults)
+{
+    FeedResponse<dynamic> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+    foreach (var result in currentResultSet)
+    {
+        Console.WriteLine(result);
+    }
+}
+```
 
+Instead of `dynamic` you can use a specific Type.
 
 ## MongoDB
 
@@ -111,7 +124,9 @@ var collection = database.GetCollection<WeatherStationObservation>(config.Collec
 Check if an `_id` exists:
 
 ```C#
-Builders<WeatherStationObservation>.Filter.Eq("_id", checkId);
+var filter = Builders<WeatherStationObservation>.Filter.Eq("_id", checkId);
+
+if (collection.CountDocuments(filter) > 0) {}
 ```
 
 Insert a collection of records (`IEnumerable<WeatherStationObservation>`):
