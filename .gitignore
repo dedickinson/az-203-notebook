@@ -3,3 +3,5 @@ batch/task_factorial.zip
 obj/
 bin/
 **/PublishProfiles/
+Az203WebAppSandbox/Az203WebAppSandbox/appsettings.Development.json
+Az203WebAppSandbox/Az203WebAppSandbox/Properties/launchSettings.json

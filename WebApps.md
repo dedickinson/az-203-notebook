@@ -210,3 +210,7 @@ az webapp config appsettings set --name $WEB_APP_NAME \
                                  --resource-group $RESOURCE_GROUP \
                                  --settings WEBSITES_PORT=3000
 ```
+
+## Managed Identities
+
+Project:
