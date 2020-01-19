@@ -1,7 +1,7 @@
 # Service Bus
 
 * MSFT Docs: https://docs.microsoft.com/en-us/azure/service-bus/
-* Demo: <ServiceBus/README.md>
+* Demo: [ServiceBus](ServiceBus)
 
 A Service Bus _namespace_ contains:
 

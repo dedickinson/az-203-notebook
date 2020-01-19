@@ -30,6 +30,10 @@ namespace redis_app
             Console.WriteLine("\nCache command  : " + cacheCommand);
             Console.WriteLine("Cache response : " + cache.Execute(cacheCommand).ToString());
 
+            cacheCommand = "INFO";
+            Console.WriteLine("\nCache command  : " + cacheCommand);
+            Console.WriteLine("Cache response : " + cache.Execute(cacheCommand).ToString());
+
             // Get the client list, useful to see if connection list is growing...
             cacheCommand = "CLIENT LIST";
             Console.WriteLine("\nCache command  : " + cacheCommand);

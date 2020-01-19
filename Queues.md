@@ -1,7 +1,7 @@
 # Storage Account Queues
 
 * MSFT Docs: https://docs.microsoft.com/en-au/azure/storage/
-* Demo: [Storage Account - Queue](Storage\ Account\ -\ Queue/README.md)
+* Demo: [Storage Account - Queue](Storage Account - Queue/README.md)
 
 Packages:
 

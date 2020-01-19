@@ -1,7 +1,7 @@
 # Event Hub
 
 * MSFT Docs: https://docs.microsoft.com/en-us/azure/event-hubs/
-* Demo: <EventHub/README.md>
+* Demo: [EventHub](EventHub)
 
 Packages:
 

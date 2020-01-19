@@ -1,7 +1,7 @@
 # Storage Account Tables
 
 * MSFT Docs: https://docs.microsoft.com/en-au/azure/storage/
-* Demo: [Storage Account - Tables](Storage\ Account\ -\ Tables/README.md)
+* Demo: [Storage Account - Tables](Storage Account - Tables/README.md)
 
 Packages:
 

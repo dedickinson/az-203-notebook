@@ -1,7 +1,7 @@
 # Redis
 
 * MSFT Docs: https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/
-* Demo: <Redis/README.md>
+* Demo: [Redis](Redis)
 
 Packages:
 
@@ -10,8 +10,6 @@ Packages:
 ## Connection String
 
     <cache name>.redis.cache.windows.net,abortConnect=false,ssl=true,password=<primary-access-key>
-
-    az203-dd.redis.cache.windows.net:6380,ssl=True,abortConnect=False,password=<KEY>
 
 ## Example code
 
@@ -33,6 +31,10 @@ Check a connection:
 
 ```C#
 string cacheCommand = "PING";
+Console.WriteLine("\nCache command  : " + cacheCommand);
+Console.WriteLine("Cache response : " + cache.Execute(cacheCommand).ToString());
+
+cacheCommand = "INFO";
 Console.WriteLine("\nCache command  : " + cacheCommand);
 Console.WriteLine("Cache response : " + cache.Execute(cacheCommand).ToString());
 ```
