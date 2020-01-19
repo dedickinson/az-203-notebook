@@ -192,3 +192,38 @@ async def main(stationData: func.InputStream):
         'Python blob trigger function processed blob (%s) - %s bytes',
         stationData.name, stationData.length)
 ```
+
+## Durable Functions
+
+Declare an orchestrator function:
+
+```C#
+[FunctionName("DurableFunctionsOrchestrationCSharp")]
+public static async Task<List<string>> RunOrchestrator(
+    [OrchestrationTrigger] DurableOrchestrationContext context)
+```
+
+Activity function:
+
+```C#
+[FunctionName("DurableFunctionsOrchestrationCSharp_Hello")]
+public static string SayHello([ActivityTrigger] string name, ILogger log)
+```
+
+Kick of the orchastrator with an HTTP-trigger-based function:
+
+```C#
+[FunctionName("DurableFunctionsOrchestrationCSharp_HttpStart")]
+public static async Task<HttpResponseMessage> HttpStart(
+    [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")]HttpRequestMessage req,
+    [OrchestrationClient]DurableOrchestrationClient starter,
+    ILogger log)
+{
+    // Function input comes from the request content.
+    string instanceId = await starter.StartNewAsync("DurableFunctionsOrchestrationCSharp", null);
+
+    log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
+
+    return starter.CreateCheckStatusResponse(req, instanceId);
+}
+```
