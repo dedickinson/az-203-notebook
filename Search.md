@@ -267,6 +267,14 @@ Indexes a Blob-based CSV file.
 
 ## Example Searches - postcodes
 
+Basic search (`New`)
+
+    $count=true&search=New
+
+Another - with the `*` suffix operator:
+
+    $count=true&search=Dri*
+
 Basic initial search with facet count for the `state_name`
 
     $count=true&facet=state_name
@@ -279,11 +287,11 @@ Add in the `country_code` facet:
 
 The `place_name` suggester is a handy way to help guide the user with possible matches:
 
-    https://wb-search-dev.search.windows.net/indexes/postcodes/docs/suggest?api-version=2019-05-06&suggesterName=place_name&search=Melr
+    https://wb-search-dev.search.windows.net/indexes/postcodes/docs/suggest?api-version=2019-05-06&suggesterName=place_name&search=Melr*
 
 The suggester results can be enhanced with extra fields:
 
-    https://wb-search-dev.search.windows.net/indexes/postcodes/docs/suggest?api-version=2019-05-06&suggesterName=place_name&search=Melr&$select=place_name,state_name,postal_code
+    https://wb-search-dev.search.windows.net/indexes/postcodes/docs/suggest?api-version=2019-05-06&suggesterName=place_name&search=Melr*&$select=place_name,state_name,postal_code
 
 ### Map searching
 
