@@ -203,6 +203,10 @@ public static async Task<List<string>> RunOrchestrator(
     [OrchestrationTrigger] DurableOrchestrationContext context)
 ```
 
+Orchestrator adds an activity function call with:
+
+    outputs.Add(await context.CallActivityAsync<string>("DurableFunctionsOrchestrationCSharp_Hello", "Tokyo"));
+
 Activity function:
 
 ```C#
